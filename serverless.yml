@@ -1,0 +1,28 @@
+service: my-fastapi-app # CHANGE THIS TO YOUR PROJECT NAME
+frameworkVersion: "3"
+
+plugins:
+  - serverless-python-requirements
+  - serverless-prune-plugin
+
+provider:
+  name: aws
+  runtime: python3.9
+    stage: ${opt:stage, 'dev'}
+
+custom:
+  pythonRequirements:
+    requirePoetryLockFile: true
+    slim: true
+    zip: true
+  prune:
+    automatic: true
+    number: 3
+
+functions:
+  app:
+    handler: app.handler
+    events:
+      - http:
+          method: any
+          path: /{proxy+}

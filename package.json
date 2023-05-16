@@ -1,0 +1,22 @@
+{
+  "name": "my-fastapi-app",
+  "version": "0.0.0",
+  "description": "FastAPI template",
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "serverless-prune-plugin": "^2.0.2",
+    "serverless-python-requirements": "^6.0.0"
+  },
+  "scripts": {
+    "start": "cross-env env=dev poetry run python manage.py runserver",
+    "start:local": "cross-env env=local poetry run python manage.py runserver",
+    "start:prod": "cross-env env=prod poetry run python manage.py runserver",
+    "test": "poetry run pytest",
+    "lint": "black .",
+    "deploy": "npm install && cross-env env=dev python -m scripts.generate_serverless_config && cross-env sls deploy --stage=dev",
+    "deploy:prod": "npm install && cross-env env=prod python -m scripts.generate_serverless_config &&  cross-env sls deploy --stage=prod"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT"
+}
