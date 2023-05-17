@@ -1,10 +1,10 @@
-# FASTAPI Template App
+# FastAPI Boilerplate Template App
 
-This is a basic template for a [FastAPI](https://fastapi.tiangolo.com/lo/) based app for deployment using the [Serverless](https://www.serverless.com/) framework.
+This is a basic boilerplate template for a [FastAPI](https://fastapi.tiangolo.com/lo/) based app for deployment using the [Serverless](https://www.serverless.com/) framework. This is meant to provide a sane starting point for larger projects using FastAPI
 
 ## Libraries used
 
-The goal of this template is to provide a sane starting point / boilerplate template for larger projects using FastAPI. I make use of the following libraries here:
+I make use of the following libraries here:
 
 - [Serverless](https://www.serverless.com/) - for handling deployment of the project to AWS Lambda/API Gateway
   - [serverless-prune-plugin](https://www.serverless.com/plugins/serverless-prune-plugin) - to purge previous deployed versions of functions from AWS lambda
@@ -14,6 +14,7 @@ The goal of this template is to provide a sane starting point / boilerplate temp
 - [SQLAlchemy](https://www.sqlalchemy.org/) - ORM for managing database
 - [Alembic](https://alembic.sqlalchemy.org/en/latest/) - For database migrations
 - [Pytest](https://pytest.org) - For running unit tests
+- [Black](https://pypi.org/project/black/) - An opinionated python linter
 
 ## Python version
 
