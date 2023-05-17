@@ -30,7 +30,7 @@ npm install -g serverless
 
 If you don't plan to use serverless to deploy your app, you can delete the package.json, package-lock.json and serverless.yml files.
 
-You will also need Python 3.9 and PostgreSQL installed locally to run this project.
+You will also need Python 3.9, poetry and PostgreSQL installed locally to run this project.
 
 ## Customizing
 
@@ -38,48 +38,60 @@ Throughout this project, I use the project name `my-fastapi-app`. You will want 
 
 # Getting started
 
-1. Add an empty local database + test database (code below assumes you already have the postgres command line tools and a local server setup):
+1. Make sure you have Python3.9 installed locally. Install poetry on your machine (instructions [here](https://python-poetry.org/docs/)). Then run command to initialize a new environment (you will also run this command when subsequently opening the project to navigate to this already-created environment).:
 
-```
-createdb my-fastapi-app
-ceratedb my-fastapi-app-test
-```
+   ```
+   poetry shell
+   ```
 
-2. Run migrate (this doesn't actually modify your database just yet... it just generates a migration script that we will run in the next step)
+   Next, run the following command to install dependencies:
 
-Note: this will setup with the dummy Foo model... if you are just getting started, you should run these commands right away to make sure everything is working. After that, see steps in section "Resetting the database" to start with a fresh DB.
+   ```
+   poetry install
+   ```
 
-```
-python manage.py db migrate
-# This is for local. For DEV or Prod, run:
-# env=Development python manage.py db migrate
-# env=Production python manage.py db migrate
-```
+2. Make sure you have PostgreSQL (server and command line tool) installed locally. Add an empty local database + test database (code below assumes you already have the postgres command line tools and a local server setup):
 
-3. Upgrade database (this is the step where the actual DB tables get modified/created)
+   ```
+   createdb my-fastapi-app
+   ceratedb my-fastapi-app-test
+   ```
 
-```
-python manage.py db upgrade
-# This is for local. For DEV or Prod, run:
-# env=Development python manage.py db upgrade
-# env=Production python manage.py db upgrade
-```
+3. Run migrate (this doesn't actually modify your database just yet... it just generates a migration script that we will run in the next step)
 
-4. Run unit tests
+   Note: this will setup with the dummy Foo model... if you are just getting started, you should run these commands right away to make sure everything is working. After that, see steps in section "Resetting the database" to start with a fresh DB.
 
-```
-pytest
-```
+   ```
+   python manage.py db migrate
+   # This is for local. For DEV or Prod, run:
+   # env=Development python manage.py db migrate
+   # env=Production python manage.py db migrate
+   ```
 
-5. Start the server
+4. Upgrade database (this is the step where the actual DB tables get modified/created)
 
-```
-python manage.py runserver
-# env=Development python manage.py runserver
-# env=Production python manage.py runserver
-```
+   ```
+   python manage.py db upgrade
+   # This is for local. For DEV or Prod, run:
+   # env=Development python manage.py db upgrade
+   # env=Production python manage.py db upgrade
+   ```
 
-Once the server is running, go to http://127.0.0.1:5000 to see the swagger docs and play around.
+5. Run unit tests
+
+   ```
+   pytest
+   ```
+
+6. Start the server
+
+   ```
+   python manage.py runserver
+   # env=Development python manage.py runserver
+   # env=Production python manage.py runserver
+   ```
+
+   Once the server is running, go to http://127.0.0.1:5000 to see the swagger docs and play around.
 
 ## Resetting the database
 
