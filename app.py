@@ -5,7 +5,8 @@ try:
 except ImportError:
     pass
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.openapi.docs import get_swagger_ui_html
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.responses import JSONResponse, RedirectResponse
@@ -21,8 +22,12 @@ from config import settings
 
 
 def create_app():
-    init_engine(settings.SQLALCHEMY_DATABASE_URI)
-    app = FastAPI()
+    if settings.SQLALCHEMY_DATABASE_URI:
+        init_engine(settings.SQLALCHEMY_DATABASE_URI)
+
+    app = FastAPI(
+        root_path=settings.ROOT_PATH if not settings.CUSTOM_DOMAIN else None,
+    )
 
     app.add_middleware(
         CORSMiddleware,  # For handling CORS (https://fastapi.tiangolo.com/tutorial/cors/)
@@ -39,19 +44,28 @@ def create_app():
     app.include_router(foo_routes.router)
 
     @app.get("/", include_in_schema=False)
-    def docs():
+    async def home():
         return RedirectResponse("/docs")
 
+    @app.get("", include_in_schema=False)
+    async def home2():
+        return RedirectResponse("/docs")
+
+    @app.get("/foo", include_in_schema=False)
+    async def foo(request: Request):
+        print(request.scope["path"])
+        return settings.ROOT_PATH
+
     @app.get("/status")
-    def root():
+    async def root():
         return {"status": "ok"}
 
     @app.exception_handler(MyFastAPIAppException)
-    def app_exception_handler(req, exc: MyFastAPIAppException):
+    async def app_exception_handler(req, exc: MyFastAPIAppException):
         return JSONResponse(status_code=exc.status_code, content=dict(message=exc.message))
 
     @app.exception_handler(Exception)
-    def basic_exception_handler(req, exc: Exception):
+    async def basic_exception_handler(req, exc: Exception):
         return JSONResponse(status_code=500, content=dict(message="Backend error occurred"))
 
     return app

@@ -8,7 +8,9 @@ plugins:
 provider:
   name: aws
   runtime: python3.9
-    stage: ${opt:stage, 'dev'}
+  stage: ${opt:stage, 'dev'}
+  environment:
+    env: ${file(./serverless_config_${self:provider.stage}.json):ENV}
 
 custom:
   pythonRequirements:

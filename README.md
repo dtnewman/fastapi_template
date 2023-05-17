@@ -4,7 +4,7 @@ This is a basic template for a [FastAPI](https://fastapi.tiangolo.com/lo/) based
 
 ## Libraries used
 
-The goal of this template is to provide a sane starting point for larger projects using FastAPI. I make use of the following libraries here:
+The goal of this template is to provide a sane starting point / boilerplate template for larger projects using FastAPI. I make use of the following libraries here:
 
 - [Serverless](https://www.serverless.com/) - for handling deployment of the project to AWS Lambda/API Gateway
   - [serverless-prune-plugin](https://www.serverless.com/plugins/serverless-prune-plugin) - to purge previous deployed versions of functions from AWS lambda
@@ -93,3 +93,56 @@ python manage.py db downgrade
 2. Delete the python script that was generate inside of the alembic/versions folder
 
 3. Create your own models/tabels and rerun the steps above!
+
+# Deploying via Serverless
+
+To deploy, you will first need to create a remote database and set the database connection strings up. It is recommended that you use something like AWS Secrets Manager to store sensitive info like connection strings. However, at the very least, keep this info out of checked in files. You can create a file in the config folder called `local_overrides.py` that is already ignored by .gitignore and set the variables there if you are just getting started and haven't configured secrets manager yet. For example, you can setup the `local_overrides.py` file like this:
+
+```
+from .local import Local as LocalDefault
+from .development import Development as DevelopmentDefault
+from .production import Production as ProductionDefault
+
+class Local(LocalDefault):
+    pass
+
+class Development(DevelopmentDefault):
+    SQLALCHEMY_DATABASE_URI: str = "postgres://username:password@foooobar.cluster-abcdefhijk.us-east-1.rds.amazonaws.com:5432/my-fastapi-app-dev"
+
+class Production(ProductionDefault):
+    SQLALCHEMY_DATABASE_URI: str = "postgres://username:password@foooobar.cluster-abcdefhijk.us-east-1.rds.amazonaws.com:5432/my-fastapi-app-prod"
+```
+
+## Deploy commands
+
+Deploy to dev with command:
+
+```
+npm run deploy
+```
+
+and to production with:
+
+```
+npm run deploy:prod
+```
+
+When the job finishes deploying, it should give you a URL:
+
+```
+✔ Service deployed to stack my-fastapi-app-dev (76s)
+
+endpoint: ANY - https://abcdefghij.execute-api.us-east-1.amazonaws.com/dev/{proxy+}
+```
+
+Navigate to the deployed docs by opening the link in a browswer, but replacing `{proxy+}` with `docs`.
+
+Undeploy with commands `npm run undeploy` and `npm run undeploy:prod` respectively (warning: this will remove the entire serverless stack, including any resources you created via the serverless.yml file).
+
+# Linting
+
+This codebase uses [Black](https://pypi.org/project/black/) for linting. To run the linter, run command:
+
+```
+npm run lint
+```
