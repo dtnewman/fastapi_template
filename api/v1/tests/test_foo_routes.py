@@ -10,10 +10,13 @@ class TestFooApi(BaseTestCase):
         print(response)
         print(response.text)
         assert response.status_code == 200
-        assert response.json() == {"Hello": "World"}
+        assert response.json() == []
 
-        response = client.get("/api/v1/foo/")
+        response = client.post("/api/v1/foo/", json={"name": "test"})
         print(response)
         print(response.text)
         assert response.status_code == 200
-        assert response.json() == {"Hello": "World"}
+        print(response.json())
+        response_json = response.json()
+        response_json[0].pop('timestamp')
+        assert response.json() == [{'id': 1, 'name': 'test'}]
