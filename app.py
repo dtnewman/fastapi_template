@@ -51,11 +51,6 @@ def create_app():
     async def home2():
         return RedirectResponse("/docs")
 
-    @app.get("/foo", include_in_schema=False)
-    async def foo(request: Request):
-        print(request.scope["path"])
-        return settings.ROOT_PATH
-
     @app.get("/status")
     async def root():
         return {"status": "ok"}

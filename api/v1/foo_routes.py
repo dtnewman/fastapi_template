@@ -10,6 +10,7 @@ from database import db_session
 class FooInput(BaseModel):
     name: str
 
+
 class FooResponse(BaseModel):
     id: Optional[int]
     name: str
@@ -34,7 +35,7 @@ async def create_foo(post_data: FooInput):
 async def delete_foo(id: int):
     Foo.delete(db_session, id=id)
     db_session.commit()
-    return {'status': 'success'}
+    return {"status": "success"}
 
 
 @router.get("/exception_example")
