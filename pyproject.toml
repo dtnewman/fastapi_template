@@ -18,6 +18,7 @@ psycopg2-binary = "^2.9.6"
 pytest = "^7.3.1"
 httpx = "^0.24.0"
 pytest-env = "^0.8.1"
+pytest-cov = "^4.1.0"
 
 [tool.pyright]
 pythonVersion = "3.9"
@@ -34,3 +35,7 @@ line-length = 120
 env = [
     "env=Test"
 ]
+addopts = "--cov --cov-report term-missing"
+
+[tool.coverage.run]
+omit = ["config/*"]

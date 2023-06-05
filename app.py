@@ -47,10 +47,6 @@ def create_app():
     async def home():
         return RedirectResponse("/docs")
 
-    @app.get("", include_in_schema=False)
-    async def home2():
-        return RedirectResponse("/docs")
-
     @app.get("/status")
     async def root():
         return {"status": "ok"}
@@ -58,10 +54,6 @@ def create_app():
     @app.exception_handler(MyFastAPIAppException)
     async def app_exception_handler(req, exc: MyFastAPIAppException):
         return JSONResponse(status_code=exc.status_code, content=dict(message=exc.message))
-
-    @app.exception_handler(Exception)
-    async def basic_exception_handler(req, exc: Exception):
-        return JSONResponse(status_code=500, content=dict(message="Backend error occurred"))
 
     return app
 

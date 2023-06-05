@@ -5,6 +5,9 @@ Tests for model Foo
 from datetime import datetime
 from models.foo_models import Foo
 from utils.test_utils import BaseTestCase
+import pytest
+
+from exceptions import MyFastAPIAppException
 
 
 class TestFoo(BaseTestCase):
@@ -34,3 +37,11 @@ class TestFoo(BaseTestCase):
         Foo.delete(session=self.session, id=foo1.id)
         retrieved_items = Foo.get_all(session=self.session)
         assert len(retrieved_items) == 1
+
+    def test_repr(self):
+        foo = Foo.create(session=self.session, name="test")
+        assert repr(foo) == "<Foo id=1 name=test>"
+
+    def test_delete_nonexistent(self):
+        with pytest.raises(MyFastAPIAppException):
+            Foo.delete(session=self.session, id=1)
