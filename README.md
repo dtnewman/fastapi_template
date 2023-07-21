@@ -18,7 +18,7 @@ I make use of the following libraries here:
 
 ## Python version
 
-This project uses Python version 3.9. I have not tested it with other versions of Python.
+This project uses Python version 3.9. I have not tested it with other versions of Python, but it should work with 3.9+.
 
 ## Requirements
 
@@ -54,18 +54,27 @@ Throughout this project, I use the project name `my-fastapi-app`. You will want 
 
    ```
    createdb my-fastapi-app
-   ceratedb my-fastapi-app-test
+   createdb my-fastapi-app-test
    ```
+
+3. Initialize DB
+
+```
+ python manage.py db init
+ # This is for local. For DEV or Prod, run:
+ # env=Development python manage.py db init
+ # env=Production python manage.py db init
+```
 
 3. Run migrate (this doesn't actually modify your database just yet... it just generates a migration script that we will run in the next step)
 
    Note: this will setup with the dummy Foo model... if you are just getting started, you should run these commands right away to make sure everything is working. After that, see steps in section "Resetting the database" to start with a fresh DB.
 
    ```
-   python manage.py db migrate
+   python manage.py db migrate "first migration"
    # This is for local. For DEV or Prod, run:
-   # env=Development python manage.py db migrate
-   # env=Production python manage.py db migrate
+   # env=Development python manage.py db migrate "first migration"
+   # env=Production python manage.py db migrate "first migration"
    ```
 
 4. Upgrade database (this is the step where the actual DB tables get modified/created)

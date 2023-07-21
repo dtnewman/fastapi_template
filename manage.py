@@ -1,5 +1,6 @@
 import os
 import sys
+from database import init_db
 
 import uvicorn
 
@@ -23,7 +24,10 @@ def runserver():
 
 @manager.command
 def db():
-    if sys.argv[2] == "migrate":
+    if sys.argv[2] == "init":
+        print("Initializing database")
+        upgrade()
+    elif sys.argv[2] == "migrate":
         print(sys.argv, len(sys.argv))
         if len(sys.argv) < 4:
             print("ERROR: Must include a message for the top of the migration file")

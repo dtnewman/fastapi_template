@@ -10,6 +10,10 @@ db_session = scoped_session(
 )
 
 
+def get_connection_string():
+    return settings.SQLALCHEMY_DATABASE_URI
+
+
 Base = declarative_base()
 
 

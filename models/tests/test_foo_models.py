@@ -3,6 +3,7 @@ Tests for model Foo
 """
 
 from datetime import datetime
+from database import get_connection_string, engine
 from models.foo_models import Foo
 from utils.test_utils import BaseTestCase
 import pytest
@@ -45,3 +46,6 @@ class TestFoo(BaseTestCase):
     def test_delete_nonexistent(self):
         with pytest.raises(MyFastAPIAppException):
             Foo.delete(session=self.session, id=1)
+
+    def test_connection_string(self):
+        assert get_connection_string() == str(engine.url)

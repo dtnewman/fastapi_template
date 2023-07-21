@@ -5,7 +5,6 @@ from sqlalchemy import pool
 
 from alembic import context
 
-from config import settings
 from models import Base
 from database import get_connection_string
 
